@@ -33,6 +33,12 @@ class Image(TimeStampedModel):
         _("Title"),
         max_length=150,
     )
+    rank = models.PositiveSmallIntegerField(
+        default=1
+    )
+    description = models.TextField(
+        blank=True
+    )
     file = models.ImageField(
         _("File"),
         upload_to='images/'        
