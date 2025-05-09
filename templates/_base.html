@@ -1,6 +1,6 @@
 {% load i18n static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="rtl">
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -17,19 +17,19 @@
 </head>
 <body>
 	<header>
-		
+		{% include "_navbar.html" %}
 	</header>
-
-
+	
+	
 	<main>
-        {% block content %}
-      
+		{% block content %}
+		
         {% endblock content %}
 	</main>
-
+	
 
 	<footer>
-		
+		{% include "_footer.html" %}		
 	</footer>
 
 	
