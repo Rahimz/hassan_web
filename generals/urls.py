@@ -5,5 +5,6 @@ app_name = 'generals'
 
 
 urlpatterns = [
+    path('certificates/', views.CertificatesView, name='certificates'),
     path('', views.HomeView, name='home'),
 ]

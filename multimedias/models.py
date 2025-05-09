@@ -7,6 +7,15 @@ from tools.make_thumbnail import make_thumbnail
 
 
 class Gallery(TimeStampedModel):
+    class ZoneChoices(models.TextChoices):
+        GALLERY = 'gallery', _("Gallery")
+        CERT = 'cert', _("Certificate")
+    
+    zone = models.CharField(
+        max_length=12,
+        choices=ZoneChoices.choices,
+        default=ZoneChoices.GALLERY
+    )  
     name = models.CharField(
         _("Name"),
         max_length=150,
@@ -69,6 +78,9 @@ class Image(TimeStampedModel):
     objects = models.Manager()
     actives = ActiveManager()
     
+    class Meta:
+        ordering = ('rank',)
+        
     def __str__(self):
         return self.title
     

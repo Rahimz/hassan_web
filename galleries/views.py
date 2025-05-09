@@ -5,7 +5,7 @@ from multimedias.models import Gallery
 
 
 def GalleriesView(request):
-    galleries = Gallery.objects.all()
+    galleries = Gallery.objects.filter(zone=Gallery.ZoneChoices.GALLERY)
     context = dict(
         page_title = _("Galleries"),
          navSection='galleries',
