@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     
     'accounts.apps.AccountsConfig',
     'generals.apps.GeneralsConfig',
+    'multimedias.apps.MultimediasConfig',
+    'tools.apps.ToolsConfig',
     
     # this module should be the end of list
     'django_cleanup.apps.CleanupConfig',
