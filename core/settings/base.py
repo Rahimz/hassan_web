@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     
     'accounts.apps.AccountsConfig',
     'generals.apps.GeneralsConfig',
+    'galleries.apps.GalleriesConfig',
     'multimedias.apps.MultimediasConfig',
     'tools.apps.ToolsConfig',
     

@@ -7,23 +7,26 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">خانه</a>
+            <a class="nav-link {% if navSection == 'home' %}active{% endif %}" aria-current="page" href="{% url 'generals:home' %}">خانه</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">زندگینامه</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"></a>
+            <a class="nav-link {% if navSection == 'galleries' %}active{% endif %}" href="{% url 'galleries:galleries' %}">آرشیو عکس‌ها</a>
           </li>
+          
+          {% comment %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                آرشیو متن و عکس
+              آرشیو متن و عکس
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">متن‌‌ها</a></li>
               <li><a class="dropdown-item" href="#">تصاویر</a></li>             
             </ul>
           </li>
+          {% endcomment %}
 
           <li class="nav-item">
             <a class="nav-link" href="#">اسناد</a>

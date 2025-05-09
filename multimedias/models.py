@@ -11,6 +11,11 @@ class Gallery(TimeStampedModel):
         _("Name"),
         max_length=150,
     )
+    description = models.TextField(
+        blank=True
+    )
+    def get_cover(self):
+        return self.images.filter(cover_image=True).last()
     
     def __str__(self):
         return self.name
@@ -34,12 +39,17 @@ class Image(TimeStampedModel):
     )
     thumb = models.ImageField(
         _("Thumbnail"),
-        upload_to='images/thumbs/'
+        upload_to='images/thumbs/',
+        null=True,
+        blank=True
     )
     image_alt = models.CharField(
         max_length=150,
         null=True,
         blank=True
+    )
+    cover_image = models.BooleanField(
+        default=False
     )
     active = models.BooleanField(
         default=True

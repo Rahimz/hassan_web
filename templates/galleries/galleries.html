@@ -1,0 +1,39 @@
+{% extends "_base.html" %}
+
+{% block title %}
+{{ page_title }}
+{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <h1>مجموعه عکس‌ها</h1>
+</div>
+<div class="row">
+    {% for gallery in galleries %}
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            {% if gallery.get_cover %}
+            <img src="{{ gallery.get_cover.thumb.url }}" class="card-img-top" alt="...">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ gallery }}</h5>
+                <p class="card-text">{{ gallery.description }}</p>
+                <a href="#" class="btn btn-dark">دیدن گالری</a>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% comment %}
+
+<div class="row">
+    {% for image in gallery.images.all %}
+    <div class="col-md-3">
+        <img src="{{ image.file.url }}" alt="" width="100%" height="auto">
+    </div>
+    {% endfor %}
+
+</div>
+{% endcomment %}
+{% endblock content %}

@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('galleries/', include('galleries.urls')),
     path('', include('generals.urls')),
     path('admin/', admin.site.urls),
 ]
