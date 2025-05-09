@@ -10,4 +10,4 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(Gallery)
 class GalleryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', ]
+    list_display = ['id', 'name', 'zone']
