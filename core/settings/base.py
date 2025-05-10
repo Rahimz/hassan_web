@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'generals.apps.GeneralsConfig',
     'galleries.apps.GalleriesConfig',
     'multimedias.apps.MultimediasConfig',
+    'timeline.apps.TimelineConfig',
     'tools.apps.ToolsConfig',
     
     # this module should be the end of list
