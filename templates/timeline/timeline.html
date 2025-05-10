@@ -1,5 +1,135 @@
 {% extends "_base.html" %}
 
+{% block head %}
+<style >
+ /* Timeline styling */
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* The vertical line */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: #333;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+}
+
+/* Timeline entries container - replace table with div */
+.timeline-container {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+/* The circles on the timeline */
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border: 3px solid #333;
+    border-radius: 50%;
+    top: 15px;
+    z-index: 1;
+}
+
+/* Position the entries */
+.left {
+    left: 0;
+}
+
+.right {
+    left: 50%;
+}
+
+/* Add arrows to the left containers (pointing right) */
+.left::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 15px;
+    width: 0;
+    z-index: 1;
+    right: 15px;
+    border: medium solid #f1f1f1;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #f1f1f1;
+}
+
+/* Add arrows to the right containers (pointing left) */
+.right::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 15px;
+    width: 0;
+    z-index: 1;
+    left: 15px;
+    border: medium solid #f1f1f1;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #f1f1f1 transparent transparent;
+}
+
+/* Fix the circle position */
+.left::after {
+    right: -8px;
+}
+
+.right::after {
+    left: -8px;
+}
+
+/* The actual content */
+.timeline-content {
+    padding: 15px;
+    background-color: #f1f1f1;
+    position: relative;
+    border-radius: 6px;
+}
+
+/* Media queries for responsive timeline */
+@media screen and (max-width: 600px) {
+    /* Place the timeline to the left */
+    .timeline::after {
+        left: 31px;
+    }
+    
+    /* Full-width containers */
+    .timeline-container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+    
+    /* Make sure all circles are at the same spot */
+    .timeline-container::after {
+        left: 15px;
+    }
+    
+    /* Make all arrows point left */
+    .timeline-container::before {
+        left: 60px;
+        border: medium solid #f1f1f1;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent #f1f1f1 transparent transparent;
+    }
+    
+    /* Make right containers behave like left */
+    .right {
+        left: 0%;
+    }
+}
+</style>
+{% endblock head %}
 {% block title %}
 {{ page_title }}
 {% endblock title %}
@@ -8,7 +138,46 @@
 <div class="row">
     <h1>گاهشمار</h1>
 </div>
-<div class="row">
-    
+
+
+<div class="timeline">
+    {% for entry in entries %}
+    <div class="timeline-container {% if forloop.counter|divisibleby:2 %}right{% else %}left{% endif %}">
+        <div class="timeline-content">
+            <div class="row">
+                <div class="col-md-3">
+                    <strong>{{ entry.h_year }}</strong>
+                </div>
+                <div class="col-md-4">
+                    {{ entry.date }}
+                </div>
+                <div class="col-md-5">
+                    {{ entry.title }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 </div>
+
+
+{% comment %}
+
+<div class="row">
+    <table class="table table-striped">
+        <tbody>
+            
+
+            {% for entry in entries %}
+            <tr>
+            <td>{{ entry.h_year }}</td>
+            <td>{{ entry.date }}</td>
+            <td>{{ entry.title }}</td>
+        </tr>
+        {% endfor %}
+          
+        </tbody>
+      </table>
+    </div>
+    {% endcomment %}
 {% endblock content %}
