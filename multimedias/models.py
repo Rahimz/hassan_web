@@ -88,7 +88,7 @@ class Image(TimeStampedModel):
         try:
             if not self.thumb:
                 self.thumb = make_thumbnail(self.file.file, size=(500,500))
-        except:
-            pass
+        except Exception as e:
+            print(f"Error generating thumbnail: {e}")
 
         return super().save(*args, **kwargs)

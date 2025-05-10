@@ -1,6 +1,7 @@
 from io import BytesIO
 from django.core.files import File
 from PIL import Image as IMG
+from PIL import ImageDraw, ImageFont
 import os
 
 
@@ -15,9 +16,41 @@ def make_thumbnail(image, size=(500, 500)):
 
             # extension = image.name.split('.')[-1]
             image_name, image_ext = os.path.splitext(os.path.basename(image.name))
-
+            
+            # resize image            
             im.thumbnail(size) # resize image
 
+            # Add watermark +++++
+            watermark_text = "agharebparast.ir"
+            
+            # Create a drawing context
+            draw = ImageDraw.Draw(im)
+            
+            # Calculate a reasonable font size based on image dimensions
+            width, height = im.size
+            font_size = int(min(width, height) * 0.05)  # 5% of the smaller dimension
+            
+            try:
+                # Try to load a font (you might need to provide a font file)
+                font = ImageFont.truetype("arial.ttf", font_size)
+            except:
+                # Fallback to default font if specific font not available
+                font = ImageFont.load_default()
+            
+            # Get text bounding box using textbbox
+            text_bbox = draw.textbbox((0, 0), watermark_text, font=font)
+            text_width = text_bbox[2] - text_bbox[0]  # right - left
+            text_height = text_bbox[3] - text_bbox[1]  # bottom - top
+            
+            # Calculate text position (bottom right corner with some padding)
+            margin = 10
+            x = width - text_width - margin
+            y = height - text_height - margin
+            
+            # Add semi-transparent text
+            draw.text((x, y), watermark_text, font=font, fill=(255, 255, 255, 128))
+            # Add watermark +++++
+            
             thumb_io = BytesIO() # create a BytesIO object
             # we have problem with gif image so if the save method doesnot work we do not 
             # make any thumbnail
