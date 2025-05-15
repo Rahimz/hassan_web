@@ -102,7 +102,7 @@
 <div class="timeline">
     {% for entry in entries %}
     <div class="timeline-entry">
-        <div class="timeline-content">
+        <div class="timeline-content" id="{{ entry.h_year }}-{{ entry.id }}">
             <div class="timeline-date text-dark">{{ entry.h_year }}</div>
             <div class="timeline-title">{{ entry.title }}</div>
             {% if entry.description %}
