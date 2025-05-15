@@ -1,183 +1,166 @@
 {% extends "_base.html" %}
 
-{% block head %}
-<style >
- /* Timeline styling */
-.timeline {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* The vertical line */
-.timeline::after {
-    content: '';
-    position: absolute;
-    width: 2px;
-    background-color: #333;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    margin-left: -1px;
-}
-
-/* Timeline entries container - replace table with div */
-.timeline-container {
-    padding: 10px 40px;
-    position: relative;
-    width: 50%;
-    box-sizing: border-box;
-}
-
-/* The circles on the timeline */
-.timeline-container::after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background-color: white;
-    border: 3px solid #333;
-    border-radius: 50%;
-    top: 15px;
-    z-index: 1;
-}
-
-/* Position the entries */
-.left {
-    left: 0;
-}
-
-.right {
-    left: 50%;
-}
-
-/* Add arrows to the left containers (pointing right) */
-.left::before {
-    content: " ";
-    height: 0;
-    position: absolute;
-    top: 15px;
-    width: 0;
-    z-index: 1;
-    right: 15px;
-    border: medium solid #f1f1f1;
-    border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent #f1f1f1;
-}
-
-/* Add arrows to the right containers (pointing left) */
-.right::before {
-    content: " ";
-    height: 0;
-    position: absolute;
-    top: 15px;
-    width: 0;
-    z-index: 1;
-    left: 15px;
-    border: medium solid #f1f1f1;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent #f1f1f1 transparent transparent;
-}
-
-/* Fix the circle position */
-.left::after {
-    right: -8px;
-}
-
-.right::after {
-    left: -8px;
-}
-
-/* The actual content */
-.timeline-content {
-    padding: 15px;
-    background-color: #f1f1f1;
-    position: relative;
-    border-radius: 6px;
-}
-
-/* Media queries for responsive timeline */
-@media screen and (max-width: 600px) {
-    /* Place the timeline to the left */
-    .timeline::after {
-        left: 31px;
-    }
-    
-    /* Full-width containers */
-    .timeline-container {
-        width: 100%;
-        padding-left: 70px;
-        padding-right: 25px;
-    }
-    
-    /* Make sure all circles are at the same spot */
-    .timeline-container::after {
-        left: 15px;
-    }
-    
-    /* Make all arrows point left */
-    .timeline-container::before {
-        left: 60px;
-        border: medium solid #f1f1f1;
-        border-width: 10px 10px 10px 0;
-        border-color: transparent #f1f1f1 transparent transparent;
-    }
-    
-    /* Make right containers behave like left */
-    .right {
-        left: 0%;
-    }
-}
-</style>
-{% endblock head %}
 {% block title %}
 {{ page_title }}
 {% endblock title %}
 
+{% block head %}
+<style>
+    .timeline {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        background-color: #6c757d;
+        top: 0;
+        bottom: 0;
+        right: 50%;
+        margin-right: -1px;
+    }
+
+    .timeline-entry {
+        padding: 10px 0;
+        position: relative;
+        width: 100%;
+    }
+
+    .timeline-entry::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background-color: #fff;
+        border: 3px solid #212529;
+        border-radius: 50%;
+        top: 50%;
+        right: 50%;
+        margin-right: -9px;
+        margin-top: -8px;
+        z-index: 1;
+    }
+
+    .timeline-content {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 45%;
+    }
+
+    .timeline-entry:nth-child(even) .timeline-content {
+        margin-right: 55%;
+        text-align: right;
+    }
+
+    .timeline-entry:nth-child(odd) .timeline-content {
+        margin-right: 0;
+        margin-left: 55%;
+        text-align: left;
+    }
+
+    .timeline-date {
+        font-weight: bold;
+        /* color: #0d6efd; */
+        margin-bottom: 5px;
+    }
+
+    .timeline-title {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .timeline::after {
+            right: 31px;
+        }
+
+        .timeline-entry {
+            padding-left: 70px;
+            padding-right: 35px;
+        }
+
+        .timeline-entry::after {
+            right: 13px;
+        }
+
+        .timeline-content {
+            width: 100%;
+            margin-left: 0 !important;
+            margin-right: 15px !important;
+        }
+    }
+</style>
+{% endblock head %}
+
 {% block content %}
-<div class="row">
-    <h1>گاهشمار</h1>
-</div>
-
-
 <div class="timeline">
     {% for entry in entries %}
-    <div class="timeline-container {% if forloop.counter|divisibleby:2 %}right{% else %}left{% endif %}">
+    <div class="timeline-entry">
         <div class="timeline-content">
-            <div class="row">
-                <div class="col-md-3">
-                    <strong>{{ entry.h_year }}</strong>
-                </div>
-                <div class="col-md-4">
-                    {{ entry.date }}
-                </div>
-                <div class="col-md-5">
-                    {{ entry.title }}
-                </div>
-            </div>
+            <div class="timeline-date text-dark">{{ entry.h_year }}</div>
+            <div class="timeline-title">{{ entry.title }}</div>
+            {% if entry.description %}
+            <div class="timeline-description">{{ entry.description }}</div>
+            {% endif %}
         </div>
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
+{% endblock content %}
 
 
 {% comment %}
+<div class="table-responsive">
 
-<div class="row">
-    <table class="table table-striped">
-        <tbody>
-            
-
-            {% for entry in entries %}
-            <tr>
-            <td>{{ entry.h_year }}</td>
-            <td>{{ entry.date }}</td>
-            <td>{{ entry.title }}</td>
-        </tr>
-        {% endfor %}
-          
-        </tbody>
-      </table>
-    </div>
-    {% endcomment %}
-{% endblock content %}
+  <table class="table table-striped">
+    <tbody>
+      حسن اقارب پرست فرزند محمدرحيم
+      <tr>
+        <td>1325</td>	<td>متولد ارديبهشت ماه در اصفهان</td>
+      </tr>
+      <tr>
+        <td>1343</td>	<td>پايان تحصيلات متوسطه - ورود به دانشکده افسري</td>
+      </tr>
+      <tr>
+        <td>1347</td>	<td>فارغ التحصيل دانشکده افسري با درجه ستوان دوم - ورود به دوره مقدماتي زرهي شيراز</td>
+      </tr>
+      
+      <tr>
+        <td>1350</td>	<td>ازدواج با حوريه کلاهدوز قوچاني</td>
+      </tr>
+      <tr>
+        <td>1352</td>	<td>تولد اولين فرزند : بصير</td>
+      </tr>
+      <tr>
+        <td>1355</td>	<td>اعزام به آمريکا براي گذراندن دوره نظامي تولد دومين فرزند: محمد شريف</td>
+      </tr>
+      
+      <tr>
+        <td>1356</td>	<td>پايان خدمت در شيراز و مراجعت به تهران براي دوره فرماندهي و ستاد</td>
+      </tr>
+      <tr>
+        <td>1358</td>	<td>تولد سومين فرزند: محمد رحيم</td>
+      </tr>
+      <tr>
+        <td>1360</td>	<td>سفر حج</td>
+      </tr>
+      <tr>
+        <td>1361</td>	<td>تولد چهارمين فرزند: محمد علي</td>
+      </tr>
+      <tr>
+        <td>1362</td>	<td>تقاضاي انتقال از ستاد مشترک به مناطق عملياتي جنوب</td>
+      </tr>
+      <tr>
+        <td>1363</td>	<td>در 25 مهرماه بر اثر اصابت خمپاره و درحين بازديد از جزاير مجنون به شهادت رسيد</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+{% endcomment %}
