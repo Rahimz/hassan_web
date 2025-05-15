@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+
+{% block title %}
+{{ page_title }}
+{% endblock title %}
+
+
+{% block content %}
+  <h1>نتایج جستجو</h1>
+  {% if not results.images and not results.entries %}
+  <p class="lead">نتیجه‌ای برای جستجوی عبارت <b><u>{{ query }}</u></b> یافت نشد</p>
+  {% else %}
+<p>عبارت جستجو: <b><u>{{ query }}</u></b></p>
+  {% endif %}
+
+  {% if results.images %}
+    <h3>عکس‌ها</h3>
+    <ul>
+        {% for item in results.images %}
+        <li>
+            <a href="{% url 'galleries:gallery_details' item.gallery.id %}" class="text-dark">{{ item.title }} - {{ item.gallery }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if results.entries %}
+    <h3>گاهشمار</h3>
+    <ul>
+        {% for item in results.entries %}
+        <li>
+            <a href="{% url 'timeline:timeline' %}#{{item.h_year}}-{{item.id}}" class="text-dark">{{item.h_year}} - {{ item.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+
+{% endblock content %}

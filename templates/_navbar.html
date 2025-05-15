@@ -41,8 +41,8 @@
 
         </ul>
 
-        <form class="d-flex" role="search">
-          <input class="form-control ms-2" type="search" placeholder="جستجو" aria-label="Search">
+        <form class="d-flex" role="search" action="{% url 'search:search' %}">
+          <input class="form-control ms-2" name="query" type="search" placeholder="جستجو" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">جستجو</button>
         </form>
 
