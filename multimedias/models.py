@@ -2,10 +2,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
 from django.urls import reverse
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from tools.models import TimeStampedModel, ActiveManager
 from tools.make_thumbnail import make_thumbnail
-
+from tools.hijri_to_gregory import hij_to_greg
 
 class Gallery(TimeStampedModel):
     class ZoneChoices(models.TextChoices):
@@ -49,6 +50,10 @@ class Image(TimeStampedModel):
     description = models.TextField(
         blank=True
     )
+    back_description = models.TextField(
+        blank=True
+    )
+    
     file = models.ImageField(
         _("File"),
         upload_to='images/'        
@@ -67,6 +72,40 @@ class Image(TimeStampedModel):
     cover_image = models.BooleanField(
         default=False
     )
+    back_file = models.ImageField(
+        _("Back File"),
+        upload_to='images/',
+        null=True,
+        blank=True
+    )    
+    back_thumb = models.ImageField(
+        _("Back Thumbnail"),
+        upload_to='images/thumbs/',
+        null=True,
+        blank=True
+    )
+    back_image_alt = models.CharField(
+        max_length=150,
+        null=True,
+        blank=True
+    )
+    
+    date = models.DateField(
+        blank=True,
+        null=True
+    )
+    h_year = models.PositiveSmallIntegerField(
+        default=1320
+    )
+    h_month = models.PositiveSmallIntegerField(
+        default=1,
+        validators=[MinValueValidator(1), MaxValueValidator(12)]
+    )
+    h_day = models.PositiveSmallIntegerField(
+        default=1,
+        validators=[MinValueValidator(1), MaxValueValidator(31)]
+    )
+    
     active = models.BooleanField(
         default=True
     )
@@ -93,12 +132,30 @@ class Image(TimeStampedModel):
     def get_absolute_url(self):
         return reverse("galleries:image_details", kwargs={"short_uuid": self.short_uuid})
     
+    def get_hijri(self):
+        return f"{self.h_year}, {self.h_month}, {self.h_day}"
+    
     def save(self, *args, **kwargs):
+        if not self.image_alt:
+            self.image_alt = self.title
+        if not self.back_image_alt:
+            self.back_image_alt = self.title
+            
         if not self.short_uuid:
             self.short_uuid = str(self.uuid)[:6]
+        
+        if hij_to_greg(self.h_year, self.h_month, self.h_day) != "error" and not self.date:
+            self.date = hij_to_greg(self.h_year, self.h_month, self.h_day)
+            
         try:
-            if not self.thumb:
+            if self.file and not self.thumb:
                 self.thumb = make_thumbnail(self.file.file, size=(500,500))
+        except Exception as e:
+            print(f"Error generating thumbnail: {e}")
+        
+        try:
+            if self.back_file and not self.back_thumb:
+                self.back_thumb = make_thumbnail(self.back_file.file, size=(500,500))
         except Exception as e:
             print(f"Error generating thumbnail: {e}")
 
