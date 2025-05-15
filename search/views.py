@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
-from multimedias.models import Image
+from multimedias.models import Image, Gallery
 from timeline.models import Entry
 
 
@@ -38,7 +38,14 @@ def SearchView(request):
         #     search=SearchVector('title', 'description')        
         # ).filter(search=query)
         
-        images = Image.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+        images = Image.objects.filter(
+             Q(title__icontains=query) | 
+            Q(title__icontains=normalized_query) |
+            Q(description__icontains=query) |
+            Q(description__icontains=normalized_query) |
+            Q(h_year__icontains=query) |
+            Q(h_year__icontains=normalized_query)
+        )
         entries = Entry.objects.filter(
             Q(title__icontains=query) | 
             Q(title__icontains=normalized_query) |
@@ -47,11 +54,20 @@ def SearchView(request):
             Q(h_year__icontains=query) |
             Q(h_year__icontains=normalized_query)
         )
+        galleries = Gallery.objects.filter(
+            Q(name__icontains=query) | 
+            Q(name__icontains=normalized_query) |
+            Q(description__icontains=query) |
+            Q(description__icontains=normalized_query)
+        )
         if images:
             results['images'] = images
         
         if entries:
             results['entries'] = entries
+        
+        if galleries:
+            results['galleries'] = galleries
     
     context = dict(
         page_title = 'نتایج جستجو',

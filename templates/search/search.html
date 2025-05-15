@@ -7,10 +7,21 @@
 
 {% block content %}
   <h1>نتایج جستجو</h1>
-  {% if not results.images and not results.entries %}
+  {% if not results.images and not results.entries and not results.galleries %}
   <p class="lead">نتیجه‌ای برای جستجوی عبارت <b><u>{{ query }}</u></b> یافت نشد</p>
   {% else %}
 <p>عبارت جستجو: <b><u>{{ query }}</u></b></p>
+  {% endif %}
+
+  {% if results.galleries %}
+    <h3>گالری‌ها</h3>
+    <ul>
+        {% for item in results.galleries %}
+        <li>
+            <a href="{% url 'galleries:gallery_details' item.id %}" class="text-dark">{{ item.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
   {% endif %}
 
   {% if results.images %}
@@ -18,7 +29,7 @@
     <ul>
         {% for item in results.images %}
         <li>
-            <a href="{% url 'galleries:gallery_details' item.gallery.id %}" class="text-dark">{{ item.title }} - {{ item.gallery }}</a>
+            <a href="{% url 'galleries:image_details' item.short_uuid %}" class="text-dark">{{ item.title }} - {{ item.gallery }}</a>
         </li>
         {% endfor %}
     </ul>

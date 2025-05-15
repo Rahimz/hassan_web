@@ -7,6 +7,9 @@
 {% block content %}
 <div class="row">
     <h1>{{ gallery }}</h1>
+    {% if gallery.description %}
+    <p>{{ gallery.description | linebreaksbr }}</p>
+    {% endif %}
 </div>
 <div class="row">
     {% for image in gallery.images.all %}
