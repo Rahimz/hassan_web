@@ -1,55 +1,91 @@
 {% extends "_base.html" %}
 
+{% block head %}
+<!-- Swiper CSS -->
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style type="text/css">
+     
+     .swiper {
+        width: 100%;
+        height: 100%;
+        padding: 20px 0;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .swiper-slide img {
+        display: block;
+        width: 90%;
+        height: auto;
+        max-height: 600px;
+        object-fit: contain;
+        margin: 0 auto;
+    }
+    
+    /* Adjust padding for smaller screens */
+    @media (max-width: 768px) {
+        .swiper-slide img {
+            width: 85%;
+        }
+    }
+</style>
+{% endblock head %}
 {% block title %}
-  {{ page_title }}
+{{ page_title }}
 {% endblock title %}
 
 {% block content %}
-<div class="table-responsive">
-
-  <table class="table table-striped">
-    <tbody>
-      حسن اقارب پرست فرزند محمدرحيم
-      <tr>
-        <td>1325</td>	<td>متولد ارديبهشت ماه در اصفهان</td>
-      </tr>
-      <tr>
-        <td>1343</td>	<td>پايان تحصيلات متوسطه - ورود به دانشکده افسري</td>
-      </tr>
-      <tr>
-        <td>1347</td>	<td>فارغ التحصيل دانشکده افسري با درجه ستوان دوم - ورود به دوره مقدماتي زرهي شيراز</td>
-      </tr>
-      
-      <tr>
-        <td>1350</td>	<td>ازدواج با حوريه کلاهدوز قوچاني</td>
-      </tr>
-      <tr>
-        <td>1352</td>	<td>تولد اولين فرزند : بصير</td>
-      </tr>
-      <tr>
-        <td>1355</td>	<td>اعزام به آمريکا براي گذراندن دوره نظامي تولد دومين فرزند: محمد شريف</td>
-      </tr>
-      
-      <tr>
-        <td>1356</td>	<td>پايان خدمت در شيراز و مراجعت به تهران براي دوره فرماندهي و ستاد</td>
-      </tr>
-      <tr>
-        <td>1358</td>	<td>تولد سومين فرزند: محمد رحيم</td>
-      </tr>
-      <tr>
-        <td>1360</td>	<td>سفر حج</td>
-      </tr>
-      <tr>
-        <td>1361</td>	<td>تولد چهارمين فرزند: محمد علي</td>
-      </tr>
-      <tr>
-        <td>1362</td>	<td>تقاضاي انتقال از ستاد مشترک به مناطق عملياتي جنوب</td>
-      </tr>
-      <tr>
-        <td>1363</td>	<td>در 25 مهرماه بر اثر اصابت خمپاره و درحين بازديد از جزاير مجنون به شهادت رسيد</td>
-      </tr>
-      
-    </tbody>
-  </table>
+<!-- Swiper -->
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        {% for image in images %}
+        <div class="swiper-slide">
+            <a href="{% url 'galleries:gallery_details' image.gallery.id %}">
+                <img src="{{ image.thumb.url }}" alt="{{ image.title }}" style="width: auto; height: 600px;">
+            </a>
+        </div>
+        {% endfor %}        
+    </div>
+    <div class="swiper-pagination"></div>
 </div>
+
 {% endblock content %}
+
+
+{% block script %}
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 5000,
+        },
+        breakpoints: {
+            // when window width is >= 768px
+            800: {
+                slidesPerView: 3,
+                spaceBetween: 30
+            }
+        }
+    });
+</script>
+{% endblock script %}

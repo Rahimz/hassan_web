@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
-from multimedias.models import Gallery
+from multimedias.models import Gallery, Image
 
 
 def HomeView(request):
+    images = Image.objects.all().order_by('?')[:6]
     context = dict(
         page_title = _("Home"),
-        navSection='home'
+        navSection='home', 
+        images=images
     )
     return render(
         request,
