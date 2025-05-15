@@ -95,14 +95,17 @@ class Image(TimeStampedModel):
         null=True
     )
     h_year = models.PositiveSmallIntegerField(
-        default=1320
+        null=True,
+        blank=True
     )
     h_month = models.PositiveSmallIntegerField(
-        default=1,
+        null=True,
+        blank=True,
         validators=[MinValueValidator(1), MaxValueValidator(12)]
     )
     h_day = models.PositiveSmallIntegerField(
-        default=1,
+        null=True,
+        blank=True,
         validators=[MinValueValidator(1), MaxValueValidator(31)]
     )
     
@@ -133,7 +136,7 @@ class Image(TimeStampedModel):
         return reverse("galleries:image_details", kwargs={"short_uuid": self.short_uuid})
     
     def get_hijri(self):
-        return f"{self.h_year}, {self.h_month}, {self.h_day}"
+        return f"{self.h_year if self.h_year else '--'}/{self.h_month if self.h_month else '--'}/{self.h_day if self.h_day else '--'}"
     
     def save(self, *args, **kwargs):
         if not self.image_alt:
@@ -144,8 +147,21 @@ class Image(TimeStampedModel):
         if not self.short_uuid:
             self.short_uuid = str(self.uuid)[:6]
         
-        if hij_to_greg(self.h_year, self.h_month, self.h_day) != "error" and not self.date:
-            self.date = hij_to_greg(self.h_year, self.h_month, self.h_day)
+        if self.h_year and not self.date:
+            # print('date conversion starts')
+            # if h_year exists we produce a date 
+            year = self.h_year
+            month = self.h_month if self.h_month else 1
+            day = self.h_day if self.h_day else 1
+            try:
+                date = hij_to_greg(year, month, day) 
+                # print('date convert')
+            except:
+                date = 'error'
+            
+            if date != "error":
+                self.date = date
+                # print('date saved')
             
         try:
             if self.file and not self.thumb:

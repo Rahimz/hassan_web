@@ -1,5 +1,5 @@
 {% extends "_base.html" %}
-
+{% load static %}
 {% block title %}
 {{ page_title }}
 {% endblock title %}
@@ -8,24 +8,80 @@
 <div class="row">
     <h1>{{ image.title }}</h1>
 </div>
-<div class="row">
+<div class="row my-2">
     <div class="col-md-6">
-        <div class="rounded">
-            <img src="{{ image.thumb.url }}" alt="{{image.image_alt}}" width="100%" height="auto">
+        <div>
+            <img src="{{ image.thumb.url }}" alt="{{image.image_alt}}" width="100%" height="auto" class="rounded">
         </div>
     </div>
     <div class="col-md-6">
-        <table>
+        <a href="#" onclick="copyFunction(`{{ image.short_uuid }}`)"
+            style="display: inline-block; text-decoration: none;">
+            <img src="{% static 'assets/images/share.png' %}" alt="share button" width="18px" height="auto">
+        </a>
+        <table class="table">
             <tbody>
                 <tr>
                     <td>عنوان:</td> <td>{{ image.title }}</td>
                 </tr>
                 <tr>
-                    <td>عنوان:</td> <td>{{ image.description | linebreaksbr }}</td>
+                    <td>عنوان آلبوم:</td> <td>{{ image.gallery }}</td>
                 </tr>
+
+                {% if image.description %}
+                <tr>
+                    <td>توضیحات:</td> <td>{{ image.description | linebreaksbr }}</td>
+                </tr>
+                {% endif %}
+
+                {% if image.back_description %}
+                <tr>
+                    <td>پشت‌نویس عکس:</td> <td>{{ image.back_description | linebreaksbr }}</td>
+                </tr>                  
+                {% endif %}
+                {% if image.date %}
+                <tr>
+                    <td>تاریخ شمسی:</td> <td>{{ image.get_hijri }}</td>
+                </tr>                  
+                <tr>
+                    <td>تاریخ میلادی:</td> <td>{{ image.date }}</td>
+                </tr>                  
+                {% endif %}
             </tbody>
         </table>
     </div>
 </div>
+<div class="row my-2">
+    {% if image.back_file %}
+    <div class="col-md-6">
+        <div>
+            <h4>پشت عکس</h4>
+            <img src="{{ image.back_thumb.url }}" alt="{{image.back_image_alt}}" width="100%" height="auto" class="rounded">
+        </div>
+    </div>
+    {% endif %}
+
+</div>
 
 {% endblock content %}
+
+{% block script %}
+<script>
+    function copyFunction(imageUUID) {
+    // Construct the URL using the provided protocol, domain, and course ID
+    const protocol = "{{ protocol }}"; // This will be replaced by Django with the actual protocol
+    const domain = "{{ domain }}"; // This will be replaced by Django with the actual domain
+    const url = `${protocol}://${domain}/galleries/image/${imageUUID}/`;
+
+    console.log(url)
+
+    // Use the Clipboard API to copy the URL
+    navigator.clipboard.writeText(url).then(() => {
+        // Optionally, you can provide feedback to the user
+        alert("لینک تصویر کپی شد: " + url);
+    }).catch(err => {
+        console.error("مشکلی وجود دارد: ", err);
+    });
+}
+</script>
+{% endblock script %}

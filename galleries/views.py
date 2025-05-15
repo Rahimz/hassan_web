@@ -36,7 +36,9 @@ def ImageDetailsView(request, short_uuid):
     context = dict(
         page_title = f"تصویر | {image.title}",
         navSection='galleries',
-        image=image
+        image=image,
+        protocol = request.scheme,  # 'http' or 'https'
+        domain = request.get_host(),
     )
     return render(
         request,
