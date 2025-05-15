@@ -5,7 +5,7 @@ from .models import Image, Gallery
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'gallery', 'active']
+    list_display = ['id', 'title', 'gallery', 'active', 'short_uuid']
 
 
 @admin.register(Gallery)

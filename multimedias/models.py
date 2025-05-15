@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
+from django.urls import reverse
 
 from tools.models import TimeStampedModel, ActiveManager
 from tools.make_thumbnail import make_thumbnail
@@ -74,6 +75,11 @@ class Image(TimeStampedModel):
         editable=False,
         unique=True
     )
+    short_uuid = models.CharField(
+        max_length=8,
+        null=True,
+        blank=True
+    )
     
     objects = models.Manager()
     actives = ActiveManager()
@@ -84,7 +90,12 @@ class Image(TimeStampedModel):
     def __str__(self):
         return self.title
     
+    def get_absolute_url(self):
+        return reverse("galleries:image_details", kwargs={"short_uuid": self.short_uuid})
+    
     def save(self, *args, **kwargs):
+        if not self.short_uuid:
+            self.short_uuid = str(self.uuid)[:6]
         try:
             if not self.thumb:
                 self.thumb = make_thumbnail(self.file.file, size=(500,500))

@@ -23,7 +23,7 @@
                 <h5 class="card-title">{{ image.title }}</h5>
                 {% endcomment %}
                 <p class="card-text">{{ image.description }}</p>
-                <a href="{{ image.thumb.url }}" target="_blank" class="btn btn-dark">...</a>
+                <a href="{{ image.get_absolute_url }}" class="btn btn-dark">...</a>
                 
             </div>
         </div>
