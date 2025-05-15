@@ -10,8 +10,8 @@
 </div>
 <div class="row">
     {% for gallery in galleries %}
-    <div class="col">
-        <div class="card" style="width: 18rem;">
+    <div class="col col-md-4">
+        <div class="card" >
             {% if gallery.get_cover %}
             <img src="{{ gallery.get_cover.thumb.url }}" class="card-img-top" alt="...">
             {% endif %}
@@ -26,14 +26,12 @@
     {% endfor %}
 </div>
 {% comment %}
-
 <div class="row">
     {% for image in gallery.images.all %}
     <div class="col-md-3">
         <img src="{{ image.file.url }}" alt="" width="100%" height="auto">
     </div>
     {% endfor %}
-
 </div>
 {% endcomment %}
 {% endblock content %}

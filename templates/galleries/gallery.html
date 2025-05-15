@@ -10,8 +10,8 @@
 </div>
 <div class="row">
     {% for image in gallery.images.all %}
-    <div class="col">
-        <div class="card" style="width: 18rem;">
+    <div class="col col-md-4">
+        <div class="card" >
             {% if image.thumb %}
             <img src="{{ image.thumb.url }}" class="card-img-top" alt="...">
             {% else %}
@@ -19,10 +19,10 @@
             {% endif %}
             
             <div class="card-body">
-                {% comment %}
                 <h5 class="card-title">{{ image.title }}</h5>
-                {% endcomment %}
+                {% comment %}
                 <p class="card-text">{{ image.description }}</p>
+                {% endcomment %}
                 <a href="{{ image.get_absolute_url }}" class="btn btn-dark">...</a>
                 
             </div>
