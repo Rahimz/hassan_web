@@ -25,7 +25,12 @@
                     <td>عنوان:</td> <td>{{ image.title }}</td>
                 </tr>
                 <tr>
-                    <td>عنوان آلبوم:</td> <td>{{ image.gallery }}</td>
+                    <td>عنوان آلبوم:</td> xxx
+                    <td>
+                        <a href="{% url 'galleries:gallery_details' image.gallery.id %}">
+                            {{ image.gallery }}
+                        </a>
+                    </td>
                 </tr>
 
                 {% if image.description %}
