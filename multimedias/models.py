@@ -132,6 +132,9 @@ class Image(TimeStampedModel):
     def __str__(self):
         return self.title
     
+    def get_type(self):
+        return 'image'
+    
     def get_absolute_url(self):
         return reverse("galleries:image_details", kwargs={"short_uuid": self.short_uuid})
     

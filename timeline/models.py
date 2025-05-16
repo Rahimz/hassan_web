@@ -50,6 +50,9 @@ class Entry(TimeStampedModel):
     class Meta:
         ordering = ('date', 'id')
     
+    def get_type(self):
+        return 'entry'
+    
     def Hijri(self):
         return f"{self.h_year}, {self.h_month}, {self.h_day}"
     def save(self, *args, **kwargs):

@@ -49,7 +49,7 @@
         padding: 15px;
         background-color: #f8f9fa;
         border-radius: 6px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         width: 45%;
     }
 
@@ -99,15 +99,49 @@
 {% endblock head %}
 
 {% block content %}
+<div class="row text-center my-3">
+    <div class="col">
+        <a href="{% url 'timeline:timeline' %}" class="btn {% if filter == 'main' %}btn-dark{% else %}btn-outline-secondary{% endif %}">گاهشمار کلی</a>
+        <a href="{% url 'timeline:timeline_filter' filter='all' %}" class="btn {% if filter == 'all' %}btn-dark{% else %}btn-outline-secondary{% endif %}">گاهشمار کامل</a>
+    </div>
+</div>
 <div class="timeline">
-    {% for entry in entries %}
+    {% for entry in sorted_timeline %}
     <div class="timeline-entry">
         <div class="timeline-content" id="{{ entry.h_year }}-{{ entry.id }}">
-            <div class="timeline-date text-dark">{{ entry.h_year }}</div>
-            <div class="timeline-title">{{ entry.title }}</div>
-            {% if entry.description %}
-            <div class="timeline-description">{{ entry.description }}</div>
+
+            {% if entry.get_type == 'entry' %}
+                {% if entry.link %}
+                <a href="{{ entry.link }}">
+                    <div class="timeline-date text-dark">{{ entry.h_year }}</div>
+                    <div class="timeline-title">{{ entry.title }}</div>
+                    {% if entry.description %}
+                    <div class="timeline-description">{{ entry.description }}</div>
+                    {% endif %}
+                </a>
+                {% else %}
+                    <div class="timeline-date text-dark">{{ entry.h_year }}</div>
+                    <div class="timeline-title">{{ entry.title }}</div>
+                    {% if entry.description %}
+                    <div class="timeline-description">{{ entry.description }}</div>
+                    {% endif %}
+                {% endif %}
             {% endif %}
+
+            {% if entry.get_type == 'image' %}
+            <a href="{{ entry.get_absolute_url }}">
+                <div class="timeline-date text-dark">{{ entry.h_year }}</div>
+                <div class="timeline-title">{{ entry.title }}
+                    <img src="{{ entry.thumb.url }}" alt="timeline image thumbnail" width="24px" height="auto" class="me-4">
+                </div>
+                {% comment %}
+                {% if entry.description %}
+                <div class="timeline-description">{{ entry.description }}</div>
+                {% endif %}
+                {% endcomment %}
+            </a>
+            {% endif %}
+
         </div>
     </div>
     {% endfor %}
@@ -118,49 +152,61 @@
 {% comment %}
 <div class="table-responsive">
 
-  <table class="table table-striped">
-    <tbody>
-      حسن اقارب پرست فرزند محمدرحيم
-      <tr>
-        <td>1325</td>	<td>متولد ارديبهشت ماه در اصفهان</td>
-      </tr>
-      <tr>
-        <td>1343</td>	<td>پايان تحصيلات متوسطه - ورود به دانشکده افسري</td>
-      </tr>
-      <tr>
-        <td>1347</td>	<td>فارغ التحصيل دانشکده افسري با درجه ستوان دوم - ورود به دوره مقدماتي زرهي شيراز</td>
-      </tr>
-      
-      <tr>
-        <td>1350</td>	<td>ازدواج با حوريه کلاهدوز قوچاني</td>
-      </tr>
-      <tr>
-        <td>1352</td>	<td>تولد اولين فرزند : بصير</td>
-      </tr>
-      <tr>
-        <td>1355</td>	<td>اعزام به آمريکا براي گذراندن دوره نظامي تولد دومين فرزند: محمد شريف</td>
-      </tr>
-      
-      <tr>
-        <td>1356</td>	<td>پايان خدمت در شيراز و مراجعت به تهران براي دوره فرماندهي و ستاد</td>
-      </tr>
-      <tr>
-        <td>1358</td>	<td>تولد سومين فرزند: محمد رحيم</td>
-      </tr>
-      <tr>
-        <td>1360</td>	<td>سفر حج</td>
-      </tr>
-      <tr>
-        <td>1361</td>	<td>تولد چهارمين فرزند: محمد علي</td>
-      </tr>
-      <tr>
-        <td>1362</td>	<td>تقاضاي انتقال از ستاد مشترک به مناطق عملياتي جنوب</td>
-      </tr>
-      <tr>
-        <td>1363</td>	<td>در 25 مهرماه بر اثر اصابت خمپاره و درحين بازديد از جزاير مجنون به شهادت رسيد</td>
-      </tr>
-      
-    </tbody>
-  </table>
+    <table class="table table-striped">
+        <tbody>
+            حسن اقارب پرست فرزند محمدرحيم
+            <tr>
+                <td>1325</td>
+                <td>متولد ارديبهشت ماه در اصفهان</td>
+            </tr>
+            <tr>
+                <td>1343</td>
+                <td>پايان تحصيلات متوسطه - ورود به دانشکده افسري</td>
+            </tr>
+            <tr>
+                <td>1347</td>
+                <td>فارغ التحصيل دانشکده افسري با درجه ستوان دوم - ورود به دوره مقدماتي زرهي شيراز</td>
+            </tr>
+
+            <tr>
+                <td>1350</td>
+                <td>ازدواج با حوريه کلاهدوز قوچاني</td>
+            </tr>
+            <tr>
+                <td>1352</td>
+                <td>تولد اولين فرزند : بصير</td>
+            </tr>
+            <tr>
+                <td>1355</td>
+                <td>اعزام به آمريکا براي گذراندن دوره نظامي تولد دومين فرزند: محمد شريف</td>
+            </tr>
+
+            <tr>
+                <td>1356</td>
+                <td>پايان خدمت در شيراز و مراجعت به تهران براي دوره فرماندهي و ستاد</td>
+            </tr>
+            <tr>
+                <td>1358</td>
+                <td>تولد سومين فرزند: محمد رحيم</td>
+            </tr>
+            <tr>
+                <td>1360</td>
+                <td>سفر حج</td>
+            </tr>
+            <tr>
+                <td>1361</td>
+                <td>تولد چهارمين فرزند: محمد علي</td>
+            </tr>
+            <tr>
+                <td>1362</td>
+                <td>تقاضاي انتقال از ستاد مشترک به مناطق عملياتي جنوب</td>
+            </tr>
+            <tr>
+                <td>1363</td>
+                <td>در 25 مهرماه بر اثر اصابت خمپاره و درحين بازديد از جزاير مجنون به شهادت رسيد</td>
+            </tr>
+
+        </tbody>
+    </table>
 </div>
 {% endcomment %}
