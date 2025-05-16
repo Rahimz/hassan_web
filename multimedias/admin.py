@@ -5,7 +5,7 @@ from .models import Image, Gallery
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'gallery', 'active', 'short_uuid', 'file_size_mb']
+    list_display = ['id', 'title', 'gallery', 'rank', 'active', 'short_uuid', 'file_size_mb']
     
     def file_size_mb(self, obj):
         if obj.file:
@@ -17,4 +17,5 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(Gallery)
 class GalleryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'zone']
+    list_display = ['id', 'name', 'rank', 'zone']
+    list_editable = ['rank']
