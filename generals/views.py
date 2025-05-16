@@ -5,11 +5,13 @@ from multimedias.models import Gallery, Image
 
 
 def HomeView(request):
-    images = Image.objects.all().order_by('?')[:6]
+    images = Image.objects.filter(gallery__zone='gallery').order_by('?')[:4]
+    certs = Image.objects.filter(gallery__zone='cert').order_by('?')[:4]
     context = dict(
         page_title = _("Home"),
         navSection='home', 
-        images=images
+        images=images,
+        certs=certs
     )
     return render(
         request,

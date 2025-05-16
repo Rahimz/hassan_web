@@ -55,6 +55,32 @@
 {% endblock title %}
 
 {% block content %}
+<div class="row my-2">
+    {% for image in images %}
+    <div class="col-sm-6 col-md-3 my-2">
+        <a href="{{ image.get_absolute_url}}">
+            <div class="img-card">
+                <img src="{{ image.thumb.url }}" alt="{{ image.title }}" class="img-img">
+            </div>
+        </a>
+    </div>
+    {% endfor %}        
+</div>
+
+<div class="row my-2">
+    {% for image in certs %}
+    <div class="col-sm-6 col-md-3 my-2">
+        <a href="{{ image.get_absolute_url}}">
+            <div class="img-card">
+                <img src="{{ image.thumb.url }}" alt="{{ image.title }}" class="img-img">
+            </div>
+        </a>
+    </div>
+    {% endfor %}        
+</div>
+
+{% comment %}
+  
 <!-- Swiper -->
 <div class="swiper mySwiper">
     <div class="swiper-wrapper">
@@ -69,10 +95,13 @@
     <div class="swiper-pagination"></div>
 </div>
 
+{% endcomment %}
 {% endblock content %}
 
 
 {% block script %}
+{% comment %}
+  
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -97,4 +126,5 @@
         }
     });
 </script>
+{% endcomment %}
 {% endblock script %}
