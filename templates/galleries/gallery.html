@@ -13,7 +13,15 @@
 </div>
 <div class="row">
     {% for image in gallery.images.all %}
-    <div class="col col-md-4">
+    <div class="col-sm-6 col-md-4 my-2 text-center text-muted">
+        <a href="{{ image.get_absolute_url }}" class="border d-block">
+            <div class="img-card">
+                <img src="{{ image.thumb.url }}" class="img-img" alt="{{ image.image_alt }}">
+            </div>
+            <p class="fs-7">{{ image.title }}</p>
+        </a>
+            
+        {% comment %}
         <div class="card" >
             {% if image.thumb %}
             <img src="{{ image.thumb.url }}" class="card-img-top" alt="...">
@@ -23,14 +31,14 @@
             
             <div class="card-body">
                 <h5 class="card-title">{{ image.title }}</h5>
-                {% comment %}
-                <p class="card-text">{{ image.description }}</p>
-                {% endcomment %}
+                
+                {#<p class="card-text">{{ image.description }}</p>#}
+                
                 <a href="{{ image.get_absolute_url }}" class="btn btn-dark">...</a>
                 
             </div>
         </div>
-
+        {% endcomment %}
     </div>
     {% endfor %}
 </div>
