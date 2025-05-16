@@ -6,7 +6,8 @@ from .models import Image, Gallery
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'gallery', 'rank', 'active', 'short_uuid', 'file_size_mb']
-    
+    list_filter = ['gallery']
+    search_fields = ['id', 'uuid', 'short_uuid', 'title', 'description']
     def file_size_mb(self, obj):
         if obj.file:
             size_bytes = obj.file.size
