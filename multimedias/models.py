@@ -25,6 +25,13 @@ class Gallery(TimeStampedModel):
     description = models.TextField(
         blank=True
     )
+    rank = models.PositiveSmallIntegerField(
+        default=1
+    )
+    
+    class Meta:
+        ordering = ('rank',)
+         
     def get_cover(self):
         return self.images.filter(cover_image=True).last()
     

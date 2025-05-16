@@ -31,14 +31,14 @@ def SearchView(request):
         
         normalized_query = normalize_numerals(query)
         
-        # images = Image.objects.annotate(
+        # images = Image.actives.annotate(
         #     search=SearchVector('title', 'description')
         # ).filter(search=query)
         # entries = Entry.objects.annotate(
         #     search=SearchVector('title', 'description')        
         # ).filter(search=query)
         
-        images = Image.objects.filter(
+        images = Image.actives.filter(
              Q(title__icontains=query) | 
             Q(title__icontains=normalized_query) |
             Q(description__icontains=query) |
@@ -46,7 +46,7 @@ def SearchView(request):
             Q(h_year__icontains=query) |
             Q(h_year__icontains=normalized_query)
         )
-        entries = Entry.objects.filter(
+        entries = Entry.actives.filter(
             Q(title__icontains=query) | 
             Q(title__icontains=normalized_query) |
             Q(description__icontains=query) |

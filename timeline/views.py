@@ -9,7 +9,7 @@ def TimeLineView(request, filter='main'):
     entries = Entry.actives.all()
     images = []
     if filter == 'all':
-        images = Image.objects.filter(date__isnull=False).order_by('date')
+        images = Image.actives.filter(date__isnull=False).order_by('date')
         
     
     results = [x for x in entries] + [y for y in images]
