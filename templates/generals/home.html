@@ -56,8 +56,9 @@
 
 {% block content %}
 <div class="row my-2">
+    <h2>گزیده‌ای از تصاویر</h2>
     {% for image in images %}
-    <div class="col-sm-6 col-md-3 my-2">
+    <div class="col-sm-6 col-md-3 my-2 text-center">
         <a href="{{ image.get_absolute_url}}">
             <div class="img-card">
                 <img src="{{ image.thumb.url }}" alt="{{ image.title }}" class="img-img">
@@ -68,6 +69,7 @@
 </div>
 
 <div class="row my-2">
+    <h2>گزیده‌ای از گواهینامه‌ها</h2>
     {% for image in certs %}
     <div class="col-sm-6 col-md-3 my-2">
         <a href="{{ image.get_absolute_url}}">

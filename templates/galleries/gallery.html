@@ -14,7 +14,7 @@
 <div class="row">
     {% for image in gallery.images.all %}
     <div class="col-sm-6 col-md-4 my-2 text-center text-muted">
-        <a href="{{ image.get_absolute_url }}" class="border d-block">
+        <a href="{{ image.get_absolute_url }}" class="border rounded d-block">
             <div class="img-card">
                 <img src="{{ image.thumb.url }}" class="img-img" alt="{{ image.image_alt }}">
             </div>

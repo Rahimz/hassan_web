@@ -10,6 +10,22 @@
 </div>
 <div class="row">
     {% for gallery in galleries %}
+    <div class="col-sm-6 col-md-4 my-2 text-center text-muted">
+        <div class="border rounded d-block">
+            <a href="{% url 'galleries:gallery_details' gallery.id %}" >
+                <div class="img-card">
+                    {% if gallery.get_cover %}
+                    <img src="{{ gallery.get_cover.thumb.url }}" class="img-img" alt="{{ image.image_alt }}">
+                    {% endif %}
+                </div>
+            </a>
+            <h5 class="fs-7">{{ gallery }}</h5>
+            <p class="card-text">{{ gallery.description | truncatechars:30 }}</p>
+            <a href="{% url 'galleries:gallery_details' gallery.id %}" class="btn btn-dark">دیدن گالری</a>
+        </div>
+    </div>
+    {% comment %}
+      
     <div class="col col-md-4">
         <div class="card" >
             {% if gallery.get_cover %}
@@ -23,6 +39,8 @@
         </div>
 
     </div>
+
+    {% endcomment %}
     {% endfor %}
 </div>
 {% comment %}
