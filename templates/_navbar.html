@@ -10,7 +10,7 @@
             <a class="nav-link {% if navSection == 'home' %}active{% endif %}" aria-current="page" href="{% url 'generals:home' %}">خانه</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'timeline:timeline' %}">گاهشمار</a>
+            <a class="nav-link {% if navSection == 'timeline' %}active{% endif %}" href="{% url 'timeline:timeline' %}">گاهشمار</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if navSection == 'galleries' %}active{% endif %}" href="{% url 'galleries:galleries' %}">عکس‌ها</a>
@@ -43,7 +43,7 @@
 
         <form class="d-flex" role="search" action="{% url 'search:search' %}">
           <input class="form-control ms-2" name="query" type="search" placeholder="جستجو" aria-label="Search">
-          <button class="btn btn-outline-light" type="submit">جستجو</button>
+          <button class="btn {% if navSection == 'search' %}btn-light{% else %}btn-outline-light{% endif %}" type="submit">جستجو</button>
         </form>
 
       </div>

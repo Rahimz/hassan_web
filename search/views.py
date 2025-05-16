@@ -71,6 +71,7 @@ def SearchView(request):
     
     context = dict(
         page_title = 'نتایج جستجو',
+        navSection='search',
         results = results,
         query=query
     )
