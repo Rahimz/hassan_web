@@ -19,6 +19,8 @@ def ReadLocalFile(file_path, main_folder='sources', file_name=None):
     Raises:
         FileNotFoundError: If the file doesn't exist
         ValueError: If the path points to a directory
+    Usage:
+        file = ReadLocalFile('1/JPG/12-03-MR_0081.jpg') # BASEDIR / 'sources/1/JPG/12-03-MR_0081.jpg'
     """
     # Prevent directory traversal and absolute paths
     if os.path.isabs(file_path):
