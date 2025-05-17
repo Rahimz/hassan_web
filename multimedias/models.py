@@ -79,6 +79,11 @@ class Image(TimeStampedModel):
     cover_image = models.BooleanField(
         default=False
     )
+    file_local_path = models.CharField(
+        max_length=350,
+        null=True,
+        blank=True
+    )
     back_file = models.ImageField(
         _("Back File"),
         upload_to='images/',
@@ -93,6 +98,11 @@ class Image(TimeStampedModel):
     )
     back_image_alt = models.CharField(
         max_length=150,
+        null=True,
+        blank=True
+    )
+    back_file_local_path = models.CharField(
+        max_length=350,
         null=True,
         blank=True
     )
