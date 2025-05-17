@@ -7,6 +7,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from tools.models import TimeStampedModel, ActiveManager
 from tools.make_thumbnail import make_thumbnail
 from tools.hijri_to_gregory import hij_to_greg
+from tools.utils.read_local_file import ReadLocalFile
 
 class Gallery(TimeStampedModel):
     class ZoneChoices(models.TextChoices):
@@ -189,7 +190,12 @@ class Image(TimeStampedModel):
         except Exception as e:
             print(f"Error generating thumbnail: {e}")
         
+        # if we just add back file local path we load it locally
+        if self.back_file_local_path and not self.back_file:
+            self.back_file =  ReadLocalFile(self.back_file_local_path)
+            
         try:
+            # make thumbnail from back_file
             if self.back_file and not self.back_thumb:
                 self.back_thumb = make_thumbnail(self.back_file.file, size=(500,500))
         except Exception as e:
