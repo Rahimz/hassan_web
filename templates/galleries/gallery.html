@@ -5,8 +5,16 @@
 {% endblock title %}
 
 {% block content %}
+<div class="my-2 text-muted">
+    {% if navSection == 'certificates' %}
+    <a href="{% url 'generals:certificates' %}">گواهینامه‌ها</a>
+    {% else %}
+    <a href="{% url 'galleries:galleries' %}">عکس‌ها</a>
+    {% endif %}
+     / <a href="{% url 'galleries:gallery_details' gallery.id %}" class="fw-bold">{{ gallery }}</a>
+</div>
 <div class="row">
-    <h1>{{ gallery }}</h1>
+    <h2>{{ gallery }}</h2>
     {% if gallery.description %}
     <p>{{ gallery.description | linebreaksbr }}</p>
     {% endif %}
@@ -18,7 +26,9 @@
             <div class="img-card">
                 <img src="{{ image.thumb.url }}" class="img-img" alt="{{ image.image_alt }}">
             </div>
-            <p class="fs-7">{{ image.title }}</p>
+            <p class="fs-7">{% if request.user.is_superuser %}<span>[{{ image.rank}}]</span>
+              
+            {% endif %}{{ image.title }}</p>
         </a>
             
         {% comment %}
