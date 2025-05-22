@@ -5,7 +5,7 @@ from multimedias.models import Gallery, Image
 
 
 def HomeView(request):
-    images = Image.actives.filter(gallery__zone='gallery').order_by('?')[:7]
+    images = Image.actives.filter(gallery__zone='gallery').order_by('?')[:8]
     certs = Image.actives.filter(gallery__zone='cert').order_by('?')[:4]
     context = dict(
         page_title = _("Home"),
