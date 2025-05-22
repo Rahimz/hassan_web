@@ -56,7 +56,7 @@ class ImageAdmin(admin.ModelAdmin):
             'fields': ('title', 'gallery', 'rank', 'description', 'back_description')
         }),
         ('Files', {
-            'fields': ('file', 'file_local_path', 'back_file', 'back_file_local_path'),
+            'fields': ('file', 'file_local_path', 'cover_image', 'back_file', 'back_file_local_path'),
             'description': 'Either upload a file or provide a local path'
         }),
         ('Thumbnails', {
